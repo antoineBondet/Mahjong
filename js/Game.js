@@ -128,7 +128,7 @@ export default class Game {
         const yOff = y - z * 6;
         this.ctx.strokeStyle = "yellow";
         this.ctx.lineWidth   = 4;
-        this.ctx.strokeRect(x + 2, yOff + 2,this.tileSize - 4, this.tileSize - 4);
+        this.ctx.strokeRect(x +6*z, yOff + 2,this.tileSize - 4, this.tileSize - 4);
       }
       this.ctx.fillStyle = "black";
       this.ctx.font      = "30px sans-serif";
