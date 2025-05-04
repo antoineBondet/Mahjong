@@ -28,11 +28,21 @@ body {
     cursor: pointer;
   }
   /* --- Contrôles --- */
-  select, button {
+  select, button,label {
     margin-top: 3%;
     background-color: inherit;
     border: 1px solid #d33bfd;
     border-radius: 10px;
+    color: #d33bfd;
+    padding: 15px 20px;
+    font-size: 16px;
+}
+
+label {
+    margin-top: 3%;
+    background-color: inherit;
+    border: 1px solid #d33bfd;
+    border-radius: 5px;
     color: #d33bfd;
     padding: 15px 20px;
     font-size: 16px;
@@ -44,16 +54,53 @@ select:hover,button:hover{
     color: white;
     transition: color 0.5s, background-color 0.5s;
 }
-label {
-    margin-top: 3%;
-    background-color: inherit;
-    border: 1px solid #d33bfd;
-    border-radius: 5px;
-    color: #d33bfd;
-    padding: 15px 20px;
-    font-size: 16px;
+.checkbox-wrapper-7 {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
     cursor: pointer;
+    user-select: none;
   }
+  
+  /* On cache le checkbox natif */
+  .checkbox-wrapper-7 .tgl {
+    display: none;
+  }
+  
+  /* Zone cliquable (le toggle) */
+  .checkbox-wrapper-7 .tgl-btn {
+    position: relative;
+    width: 3em;
+    height: 1.5em;
+    background: #fbfbfb;
+    border: 1px solid #e8eae9;
+    border-radius: 2em;
+    transition: background 0.3s ease;
+  }
+  
+  /* Le rond à l’intérieur */
+  .checkbox-wrapper-7 .tgl-btn::after {
+    content: "";
+    position: absolute;
+    top: 2px; left: 2px;
+    width: calc(1.5em - 4px);
+    height: calc(1.5em - 4px);
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 2px rgba(0,0,0,0.2);
+    transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  /* État coché */
+  .checkbox-wrapper-7 .tgl:checked + .tgl-btn {
+    background: #86d993;
+    border-color: #86d993;
+  }
+  
+  .checkbox-wrapper-7 .tgl:checked + .tgl-btn::after {
+    left: calc(1.5em + 2px);
+  }
+  
   /* --- Modale --- */
   .modal {
     display: none;
