@@ -69,6 +69,7 @@ export default class Game {
   onClick(evt) {
     if (this.gameOver) {
       this.generateMap(this.shape);
+      this.start();
       return;
     }
 
