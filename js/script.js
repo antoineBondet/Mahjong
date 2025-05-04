@@ -7,7 +7,25 @@ window.onload = async () => {
   await game.init();
   game.start();
 
+  const music = document.getElementById('bgMusic');
+  music.volume = 0.20; 
+
   
+  const muteBtn = document.createElement('button');
+  muteBtn.textContent = '🔊';
+  muteBtn.id = 'muteBtn';
+  document.body.appendChild(muteBtn);
+
+  muteBtn.addEventListener('click', () => {
+    if (music.paused) {
+      music.play();
+      muteBtn.textContent = '🔊';
+    } else {
+      music.pause();
+      muteBtn.textContent = '🔈';
+    }
+  });
+
   document.getElementById("mapSelect")
     .addEventListener("change", e => game.generateMap(e.target.value));
 

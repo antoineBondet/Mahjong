@@ -146,8 +146,8 @@ export default class Game {
       const TempsMis = ((Date.now() - this.startTime) / 1000).toFixed(0);
       this.ctx.fillStyle = "black";
       this.ctx.font      = "30px sans-serif";
-      this.ctx.fillText(`Temps: ${TempsMis}s`, 250, 90);
-      this.ctx.fillText(`Score: ${this.score}`, 425, 90);
+      this.ctx.fillText(`Temps: ${TempsMis}s`, 240, 90);
+      this.ctx.fillText(`Score: ${this.score}`, 435, 90);
 
       // Ecran de fin
       if (this.gameOver) {
