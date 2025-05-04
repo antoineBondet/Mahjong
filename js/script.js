@@ -12,7 +12,7 @@ window.onload = async () => {
 
   
   const muteBtn = document.createElement('button');
-  muteBtn.textContent = '🔊';
+  muteBtn.textContent = '🔈';
   muteBtn.id = 'muteBtn';
   document.body.appendChild(muteBtn);
 
@@ -36,7 +36,12 @@ window.onload = async () => {
       game.score -= 200;
       if (game.score < 0) game.score = 0;
     });
-
+    const hintToggle = document.getElementById("hintToggle");
+    game.hintsEnabled = hintToggle.checked;
+    hintToggle.addEventListener("change", e => {
+      game.hintsEnabled = e.target.checked;
+    });
+  
   
   const btn    = document.getElementById("rulesBtn");
   const modal  = document.getElementById("rulesModal");

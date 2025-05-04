@@ -22,6 +22,7 @@ export default class Game {
     this.startTime    = 0;
     this.lastMatchTime = 0;
     this.hintPair     = [];
+    this.hintsEnabled = false;
   }
 
   async init() {
@@ -167,7 +168,7 @@ export default class Game {
       }
       //Aides recherche tuiles (30 s sans action)
       const now = Date.now();
-      if (!this.gameOver && now - this.lastMatchTime > 30000) {
+      if (this.hintsEnabled && !this.gameOver && now - this.lastMatchTime > 20000) {
         if (this.hintPair.length === 0) this.hintPair = this.findHintPair();
         if (this.hintPair.length === 2) {
           this.ctx.strokeStyle = "blue";
