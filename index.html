@@ -1,18 +1,61 @@
+<!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <title>Mahjong Games</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="css/style.css">
-        <script src="js/script.js" type="module"></script>
-    </head>
-    <body>
-        <select id="mapSelect">
-        <option value="pyramide">Pyramide</option>
-        <option value="tortue">Goomba</option>
-        <option value="muraille">Trèfle</option>
+<head>
+  <meta charset="utf-8">
+  <title>Mahjong Games</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/script.js" type="module"></script>
+</head>
+<body>
+  <header>
+    <button id="rulesBtn">Voir les règles</button>
+    <select id="mapSelect">
+      <option value="pyramide">Pyramide</option>
+      <option value="tortue">Goomba</option>
+      <option value="muraille">Trèfle</option>
     </select>
-    <button id="reshuffleBtn">Mélanger Tuiles</button>
-       <canvas width="800" height="800" id="myCanvas"></canvas>
-       
-    </body>
+    <button id="reshuffleBtn">Mélanger tuiles</button>
+  </header>
+
+  <canvas width="800" height="800" id="myCanvas"></canvas>
+
+ 
+  <div id="rulesModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h1>Comment jouer au Mahjong</h1>
+      <h2>Objectif du jeu</h2>
+      <p>Retirer toutes les tuiles du plateau en formant des paires libres.</p>
+      <h2>Déroulement</h2>
+      <ol>
+        <li>Le plateau est composé de plusieurs niveaux de tuiles disposées selon une forme (pyramide, Goomba, etc.).</li>
+        <li>Une tuile est « libre » si elle n’est pas recouverte par une autre tuile et qu’elle n’est bloquée ni à gauche ni à droite.</li>
+        <li>Cliquer sur deux tuiles libres pour les retirer si elles forment une paire valide.</li>
+        <li>Une paire est valide si deux tuiles sont identiques, soit composé d'une tuile « fleur » et de sa tuile « saison » correspondante.</li>
+        <li>La partie se termine quand le plateau est vide (victoire).</li>
+      </ol>
+      <h2>Fleurs & Saisons</h2>
+      <div class="tile-pair">
+        <img src="./images/Prunier.png" alt="Prunier">
+        <img src="./images/Hiver.png"    alt="Hiver">
+        <p>Prunier ↔ Hiver</p>
+      </div>
+      <div class="tile-pair">
+        <img src="./images/Orchidée.png"   alt="Orchidée">
+        <img src="./images/Printemps.png" alt="Printemps">
+        <p>Orchidée ↔ Printemps</p>
+      </div>
+      <div class="tile-pair">
+        <img src="./images/Chrysanthème.png" alt="Chrysanthème">
+        <img src="./images/Automne.png"      alt="Automne">
+        <p>Chrysanthème ↔ Automne</p>
+      </div>
+      <div class="tile-pair">
+        <img src="./images/Bambou.png" alt="Bambou">
+        <img src="./images/Été.png"    alt="Été">
+        <p>Bambou ↔ Été</p>
+      </div>
+    </div>
+  </div>
+</body>
 </html>
