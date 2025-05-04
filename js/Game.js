@@ -20,6 +20,8 @@ export default class Game {
     this.score        = 0;
     this.gameOver     = false;
     this.startTime    = 0;
+    this.lastMatchTime = 0;
+    this.hintPair     = [];
   }
 
   async init() {
@@ -63,7 +65,10 @@ export default class Game {
     this.map.generateMap(shape);
     this.score        = 0;
     this.startTime    = Date.now();
+    this.lastMatchTime = Date.now();
     this.gameOver     = false;
+    this.hintPair     = [];
+    
   }
 
   onClick(evt) {
@@ -101,6 +106,8 @@ export default class Game {
         this.selectedTile.remove();
         tile.remove();
         this.score += 100;
+        this.lastMatchTime = Date.now();
+        this.hintPair = [];
         while (!this.map.hasMoves() && this.map.tiles.some(t => t.active)) {
           this.shuffle();
         }
@@ -124,6 +131,23 @@ export default class Game {
     this.map.shuffleActiveTiles();
   }
 
+  findHintPair() {
+    const frees = this.map.tiles.filter(t => t.active && this.map.isFree(t));
+    const counts = {};
+    for (let t of frees) counts[t.id] = (counts[t.id] || 0) + 1;
+  
+    for (let t of frees) if (counts[t.id] >= 2) {
+      const pair = frees.filter(x => x.id === t.id).slice(0,2);
+      return pair;
+    }
+    for (let [f, s] of Object.entries(FLOWER_TO_SEASON)) {
+      const fa = frees.find(x => x.id === f);
+      const sa = frees.find(x => x.id === s);
+      if (fa && sa) return [fa, sa];
+    }
+    return [];
+  }
+
   start() {
     const loop = () => {
       // background
@@ -140,6 +164,19 @@ export default class Game {
         this.ctx.strokeStyle = "yellow";
         this.ctx.lineWidth   = 4;
         this.ctx.strokeRect(x + 6*z, yOff + 2, this.tileSize - 4, this.tileSize - 4);
+      }
+      //Aides recherche tuiles (30 s sans action)
+      const now = Date.now();
+      if (!this.gameOver && now - this.lastMatchTime > 30000) {
+        if (this.hintPair.length === 0) this.hintPair = this.findHintPair();
+        if (this.hintPair.length === 2) {
+          this.ctx.strokeStyle = "blue";
+          this.ctx.lineWidth   = 3;
+          for (let t of this.hintPair) {
+            const yOff = t.y - t.z * 6;
+            this.ctx.strokeRect(t.x + 6*t.z, yOff + 2, this.tileSize - 4, this.tileSize - 4);
+          }
+        }
       }
 
       // timer & score
