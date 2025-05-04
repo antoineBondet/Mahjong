@@ -82,7 +82,7 @@ export default class Game {
       } else {
         multiplier = 1.5;
       }
-      this.score = Math.floor(this.score * multiplier);
+      this.score = this.score * multiplier;
       return;
     }
     const rect  = this.canvas.getBoundingClientRect();
