@@ -48,7 +48,7 @@ select:hover,button:hover{
     z-index: 1000;
   }
   .modal-content {
-    background: linear-gradient(#13181d, #20212e, #341b47);
+    background: linear-gradient( #20212e, #341b47);
     color : white;
     padding: 1.5rem;
     width: 90%;
