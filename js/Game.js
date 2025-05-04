@@ -181,10 +181,13 @@ export default class Game {
       }
 
       // timer & score
-      const TempsMis = ((Date.now() - this.startTime) / 1000).toFixed(0);
+      const TempsMis = ((Date.now() - this.startTime) / 1000)
+      const minutes = Math.floor(TempsMis / 60);
+      const seconds = Math.floor(TempsMis % 60);
+      const secStr     = seconds < 10 ? '0' + seconds : seconds;
       this.ctx.fillStyle = "black";
       this.ctx.font      = "30px sans-serif";
-      this.ctx.fillText(`Temps: ${TempsMis}s`, 240, 90);
+      this.ctx.fillText(`Temps: ${minutes}:${secStr}s`, 240, 90);
       this.ctx.fillText(`Score: ${this.score}`, 435, 90);
 
       // Ecran de fin
