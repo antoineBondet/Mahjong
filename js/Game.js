@@ -57,6 +57,7 @@ export default class Game {
     this.selectedTile = null;
     this.map.generateMap(shape);
     this.score= 0;
+    this.startTime = Date.now();
     this.gameOver = false;
   }
 
@@ -70,6 +71,18 @@ export default class Game {
     
     if (!this.map.hasMoves() || !anyActive) {
       this.gameOver = true;
+      const TempsPartie = (Date.now() - this.startTime) / 1000;
+      let multiplier ;
+      if (TempsPartie < 240) {
+        multiplier = 1.5;
+      } else if (TempsPartie < 480) {
+        multiplier = 1;
+      } else if (TempsPartie < 720) {
+        multiplier = 0.5;
+      } else {
+        multiplier = 0.1;
+      }
+      this.score = Math.floor(this.score * multiplier);
       return;
     }
     const rect  = this.canvas.getBoundingClientRect();
@@ -130,9 +143,11 @@ export default class Game {
         this.ctx.lineWidth   = 4;
         this.ctx.strokeRect(x +6*z, yOff + 2,this.tileSize - 4, this.tileSize - 4);
       }
+      const TempsPartie = this.gameOver ? (Date.now()-this.startTime)/1000 : (Date.now()-this.startTime)/1000;
       this.ctx.fillStyle = "black";
       this.ctx.font      = "30px sans-serif";
-      this.ctx.fillText(`Score: ${this.score}`, 350, 75);
+      this.ctx.fillText(`Temps: ${Math.floor(TempsPartie)}`, 250, 90);
+      this.ctx.fillText(`Score: ${this.score}`, 425, 90);
       const anyActive = this.map.tiles.some(t => t.active);
       if (!this.map.hasMoves() || !anyActive) {
         this.ctx.fillStyle = "rgba(0,0,0,0.7)";

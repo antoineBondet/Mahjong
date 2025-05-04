@@ -8,5 +8,9 @@ window.onload = async () => {
     document.getElementById("mapSelect")
         .addEventListener("change", e => game.generateMap(e.target.value));
     document.getElementById("reshuffleBtn")
-    .addEventListener("click", () => game.shuffle());
+    .addEventListener("click", () => {
+        game.shuffle();
+        game.score-= 200;
+        if (game.score < 0) game.score = 0;
+    })
 };
