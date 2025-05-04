@@ -74,13 +74,13 @@ export default class Game {
       const TempsPartie = (Date.now() - this.startTime) / 1000;
       let multiplier ;
       if (TempsPartie < 240) {
-        multiplier = 1.5;
+        multiplier = 4;
       } else if (TempsPartie < 480) {
-        multiplier = 1;
+        multiplier = 3;
       } else if (TempsPartie < 720) {
-        multiplier = 0.5;
+        multiplier = 2;
       } else {
-        multiplier = 0.1;
+        multiplier = 1.5;
       }
       this.score = Math.floor(this.score * multiplier);
       return;
