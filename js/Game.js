@@ -25,6 +25,8 @@ export default class Game {
     this.hintsEnabled = false;
     this.isPaused = false;
     this.pauseBtnRegion = {};  
+    this.pauseStartTime = 0;
+    this.pausedDuration = 0;
   }
 
   async init() {
@@ -89,13 +91,17 @@ export default class Game {
     const cy   = evt.clientY - rect.top;
 
     const b = this.pauseBtnRegion;
-    if (cx >= b.x && cx <= b.x + b.w && cy >= b.y && cy <= b.y + b.h) {
-      this.isPaused = !this.isPaused;
-      // Si on reprend, réinitialiser le timer d’aide
-      if (!this.isPaused) this.lastMatchTime = Date.now();
-      return; // ne pas traiter le clic comme une 
-    }
-    if (this.isPaused) return;
+if (cx >= b.x && cx <= b.x + b.w && cy >= b.y && cy <= b.y + b.h) {
+  this.isPaused = !this.isPaused;
+  if (this.isPaused) {
+    this.pauseStartTime = Date.now();
+  } else {
+    this.pausedDuration += Date.now() - this.pauseStartTime;
+    this.lastMatchTime  = Date.now();
+  }
+  return;
+}
+if (this.isPaused) return;
 
     const tile = [...this.map.tiles]
       .filter(t => t.active)
@@ -226,7 +232,7 @@ export default class Game {
     }
 
     // 4) Timer & score
-    const elapsedSec = Math.floor((now - this.startTime)/1000);
+    const elapsedSec = Math.floor((now - this.startTime - this.pausedDuration)/1000);
     const minutes    = Math.floor(elapsedSec/60);
     const seconds    = elapsedSec % 60;
     const secStr     = seconds<10 ? '0'+seconds : seconds;
