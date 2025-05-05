@@ -106,7 +106,10 @@ export default class Game {
           FLOWER_TO_SEASON[b] === a) {
         this.selectedTile.remove();
         tile.remove();
-        this.score += 100;
+        if (Date.now() - this.lastMatchTime <= 5000) {
+          this.score += 150;
+        }
+        else {this.score += 100;}
         this.lastMatchTime = Date.now();
         this.hintPair = [];
         while (!this.map.hasMoves() && this.map.tiles.some(t => t.active)) {
