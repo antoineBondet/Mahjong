@@ -154,3 +154,35 @@ select:hover,button:hover{
     font-weight: bold;
   }
   
+  table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-family: sans-serif;
+  }
+  
+  table th,
+  table td {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    text-align: center;
+  }
+  
+  table th {
+    font-weight: bold;
+  }
+  
+
+  
+  table caption {
+    caption-side: top;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  
+  
+  
+  
+  
+  

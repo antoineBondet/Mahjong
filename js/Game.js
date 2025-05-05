@@ -120,7 +120,9 @@ export default class Game {
           const TempsMis = (Date.now() - this.startTime) / 1000;
           let multiplier;
           if (TempsMis < 240)      multiplier = 4;
+          else if (TempsMis < 360) multiplier = 3.5;
           else if (TempsMis < 480) multiplier = 3;
+          else if (TempsMis < 600) multiplier = 2.5;
           else if (TempsMis < 720) multiplier = 2;
           else                     multiplier = 1.5;
           this.score = Math.floor(this.score * multiplier);

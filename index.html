@@ -30,38 +30,69 @@
   <div id="rulesModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
-      <h1>Comment jouer au Mahjong</h1>
-      <h2>Objectif du jeu</h2>
-      <p>Retirer toutes les tuiles du plateau en formant des paires libres.</p>
-      <h2>Déroulement</h2>
-      <ol>
-        <li>Le plateau est composé de plusieurs niveaux de tuiles disposées selon une forme (pyramide, Goomba, etc.).</li>
-        <li>Une tuile est « libre » si elle n’est pas recouverte par une autre tuile et qu’elle n’est bloquée ni à gauche ni à droite.</li>
-        <li>Attention aux étages différents : des qu'un de ses voisins du même niveau (à gauche ou à droite) est dégagé, la tuile est « libre ».</li>
-        <li>Cliquer sur deux tuiles libres pour les retirer si elles forment une paire valide.</li>
-        <li>Une paire est valide si deux tuiles sont identiques, soit composé d'une tuile « fleur » et de sa tuile « saison » correspondante.</li>
-        <li>La partie se termine quand le plateau est vide (victoire).</li>
-      </ol>
-      <h2>Fleurs & Saisons</h2>
-      <div class="tile-pair">
-        <img src="./images/Prunier.png" alt="Prunier">
-        <img src="./images/Hiver.png"    alt="Hiver">
-        <p>Prunier ↔ Hiver</p>
-      </div>
-      <div class="tile-pair">
-        <img src="./images/Orchidée.png"   alt="Orchidée">
-        <img src="./images/Printemps.png" alt="Printemps">
-        <p>Orchidée ↔ Printemps</p>
-      </div>
-      <div class="tile-pair">
-        <img src="./images/Chrysanthème.png" alt="Chrysanthème">
-        <img src="./images/Automne.png"      alt="Automne">
-        <p>Chrysanthème ↔ Automne</p>
-      </div>
-      <div class="tile-pair">
-        <img src="./images/Bambou.png" alt="Bambou">
-        <img src="./images/Été.png"    alt="Été">
-        <p>Bambou ↔ Été</p>
+        <h1>Comment jouer au Mahjong</h1>
+      
+        <h2>Objectif du jeu</h2>
+        <p>Retirer toutes les tuiles du plateau en formant des paires libres.</p>
+      
+        <h2>Déroulement</h2>
+        <ol>
+          <li>Le plateau est composé de plusieurs niveaux de tuiles disposées selon une forme (pyramide, Goomba, etc.).</li>
+          <li>Une tuile est « libre » si elle n’est pas recouverte par une autre tuile et qu’elle n’est pas bloquée à gauche ni à droite.</li>
+          <li>Attention aux étages différents : dès qu’un de ses voisins du <strong>même niveau</strong> (gauche ou droite) est dégagé, la tuile devient libre.</li>
+          <li>Cliquez sur deux tuiles libres pour les retirer si elles forment une paire valide.</li>
+          <li>Une paire est valide si les deux tuiles sont identiques, ou si l’une est une « fleur » et l’autre la « saison » correspondante.</li>
+          <li>La partie se termine dès que le plateau est complètement vidé (victoire).</li>
+        </ol>
+      
+        <h2>Système de score</h2>
+        <ul>
+          <li><strong>Paires trouvées :</strong> +100 points.</li>
+          <li><strong>Bonus rapidité :</strong> si vous trouvez une paire en <em>moins de 5 s</em> après la précédente, ajoutez +50 points (150 au lieu de 100).</li>
+          <li><strong>Remélange :</strong> chaque clic sur « Mélanger tuiles » vous pénalise de -200 points.</li>
+        </ul>
+      
+        <h3>Multiplicateur selon le temps de partie</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Temps écoulé</th>
+              <th>Multiplicateur du score final</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>&lt; 4 minutes</td>                <td>× 4</td></tr>
+            <tr><td>&lt; 6 minutes</td>                <td>× 3,5</td></tr>
+            <tr><td>&lt; 8 minutes</td>                <td>× 3</td></tr>
+            <tr><td>&lt; 10 minutes</td>               <td>× 2,5</td></tr>
+            <tr><td>&lt; 12 minutes</td>               <td>× 2</td></tr>
+            <tr><td>≥ 12 minutes</td>                  <td>× 1,5</td></tr>
+          </tbody>
+        </table>
+      
+        <h2>Fleurs & Saisons</h2>
+        <div class="tile-pair">
+          <img src="./images/Prunier.png" alt="Prunier">
+          <img src="./images/Hiver.png"    alt="Hiver">
+          <p>Prunier ↔ Hiver</p>
+        </div>
+        <div class="tile-pair">
+          <img src="./images/Orchidée.png"   alt="Orchidée">
+          <img src="./images/Printemps.png" alt="Printemps">
+          <p>Orchidée ↔ Printemps</p>
+        </div>
+        <div class="tile-pair">
+          <img src="./images/Chrysanthème.png" alt="Chrysanthème">
+          <img src="./images/Automne.png"      alt="Automne">
+          <p>Chrysanthème ↔ Automne</p>
+        </div>
+        <div class="tile-pair">
+          <img src="./images/Bambou.png" alt="Bambou">
+          <img src="./images/Été.png"    alt="Été">
+          <p>Bambou ↔ Été</p>
+        </div>
+      </main>
+      
       </div>
     </div>
   </div>
