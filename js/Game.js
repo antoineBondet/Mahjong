@@ -171,7 +171,7 @@ export default class Game {
     
     const btnW = 80, btnH = 30;
     const btnX = this.canvas.width - btnW - 10;
-    const btnY = 10;
+    const btnY = 35;
     this.pauseBtnRegion = { x:btnX, y:btnY, w:btnW, h:btnH };
 
     // Fond et bouton
@@ -183,7 +183,7 @@ export default class Game {
     this.ctx.fillRect(btnX, btnY, btnW, btnH);
     this.ctx.fillStyle = "white";
     this.ctx.font      = "18px sans-serif";
-    this.ctx.fillText("Pause", btnX+10, btnY+20);
+    this.ctx.fillText("Pause", btnX+15, btnY+20);
 
     // --- Si Pausé ---
     if (this.isPaused) {
