@@ -11,14 +11,16 @@ body {
     gap: 10px;
   }
   header {
+    background:#13181d;
     width: 800px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    position:sticky;
+    position:fixed;
   }
   canvas {
+    margin-top: 6%;
     border: 2px solid #333;
     background: white;
   }
