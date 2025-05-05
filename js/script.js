@@ -37,6 +37,7 @@ window.onload = async () => {
       if (game.score < 0) game.score = 0;
     });
     const hintToggle = document.getElementById("hintToggle");
+
     game.hintsEnabled = hintToggle.checked;
     hintToggle.addEventListener("change", e => {
       game.hintsEnabled = e.target.checked;

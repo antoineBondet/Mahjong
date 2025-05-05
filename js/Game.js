@@ -23,6 +23,8 @@ export default class Game {
     this.lastMatchTime = 0;
     this.hintPair     = [];
     this.hintsEnabled = false;
+    this.isPaused = false;
+    this.pauseBtnRegion = {};  
   }
 
   async init() {
@@ -85,6 +87,16 @@ export default class Game {
     const rect = this.canvas.getBoundingClientRect();
     const cx   = evt.clientX - rect.left;
     const cy   = evt.clientY - rect.top;
+
+    const b = this.pauseBtnRegion;
+    if (cx >= b.x && cx <= b.x + b.w && cy >= b.y && cy <= b.y + b.h) {
+      this.isPaused = !this.isPaused;
+      // Si on reprend, réinitialiser le timer d’aide
+      if (!this.isPaused) this.lastMatchTime = Date.now();
+      return; // ne pas traiter le clic comme une 
+    }
+    if (this.isPaused) return;
+
     const tile = [...this.map.tiles]
       .filter(t => t.active)
       .sort((a, b) => b.z - a.z)
@@ -155,61 +167,93 @@ export default class Game {
   }
 
   start() {
-    const loop = () => {
-      // background
-      if (this.bg) this.ctx.drawImage(this.bg, 0, 0, this.canvas.width, this.canvas.height);
-      else         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  const loop = () => {
+    
+    const btnW = 80, btnH = 30;
+    const btnX = this.canvas.width - btnW - 10;
+    const btnY = 10;
+    this.pauseBtnRegion = { x:btnX, y:btnY, w:btnW, h:btnH };
 
-      // tuiles
-      this.map.drawTiles();
+    // Fond et bouton
+    if (this.bg) this.ctx.drawImage(this.bg, 0,0, this.canvas.width, this.canvas.height);
+    else         this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
 
-      // Tuiles selectionnées
-      if (this.selectedTile) {
-        const { x, y, z } = this.selectedTile;
-        const yOff = y - z * 6;
-        this.ctx.strokeStyle = "yellow";
-        this.ctx.lineWidth   = 4;
-        this.ctx.strokeRect(x + 6*z, yOff + 2, this.tileSize - 4, this.tileSize - 4);
-      }
-      //Aides recherche tuiles (30 s sans action)
-      const now = Date.now();
-      if (this.hintsEnabled && !this.gameOver && now - this.lastMatchTime > 20000) {
-        if (this.hintPair.length === 0) this.hintPair = this.findHintPair();
-        if (this.hintPair.length === 2) {
-          this.ctx.strokeStyle = "blue";
-          this.ctx.lineWidth   = 3;
-          for (let t of this.hintPair) {
-            const yOff = t.y - t.z * 6;
-            this.ctx.strokeRect(t.x + 6*t.z, yOff + 2, this.tileSize - 4, this.tileSize - 4);
-          }
+    this.ctx.textAlign    = "start";
+    this.ctx.fillStyle = "#333";
+    this.ctx.fillRect(btnX, btnY, btnW, btnH);
+    this.ctx.fillStyle = "white";
+    this.ctx.font      = "18px sans-serif";
+    this.ctx.fillText("Pause", btnX+10, btnY+20);
+
+    // --- Si Pausé ---
+    if (this.isPaused) {
+      this.ctx.fillStyle = "rgba(0,0,0,0.5)";
+      this.ctx.fillRect(0,0, this.canvas.width, this.canvas.height);
+      this.ctx.fillStyle = "white";
+      this.ctx.textAlign = "center";
+      this.ctx.font      = "36px sans-serif";
+      this.ctx.fillText("PAUSE", this.canvas.width/2, this.canvas.height/2);
+      
+      requestAnimationFrame(loop);
+      return;
+    }
+
+    // --- Jeu Actif ---
+    // 1) Affiche les tuiles
+    this.map.drawTiles();
+
+    // 2) Surlignage de la tuile sélectionnée
+    if (this.selectedTile) {
+      const { x, y, z } = this.selectedTile;
+      const yOff = y - z*6;
+      this.ctx.strokeStyle = "yellow";
+      this.ctx.lineWidth   = 4;
+      this.ctx.strokeRect(x + 6*z, yOff + 2, this.tileSize-4, this.tileSize-4);
+    }
+
+    // 3) Indice après 20s
+    const now = Date.now();
+    if (this.hintsEnabled && !this.gameOver && now - this.lastMatchTime > 20000) {
+      if (!this.hintPair.length) this.hintPair = this.findHintPair();
+      if (this.hintPair.length === 2) {
+        this.ctx.strokeStyle = "blue";
+        this.ctx.lineWidth   = 3;
+        for (const t of this.hintPair) {
+          const yOff = t.y - t.z*6;
+          this.ctx.strokeRect(t.x + 6*t.z, yOff + 2, this.tileSize-4, this.tileSize-4);
         }
       }
+    }
 
-      // timer & score
-      const TempsMis = ((Date.now() - this.startTime) / 1000)
-      const minutes = Math.floor(TempsMis / 60);
-      const seconds = Math.floor(TempsMis % 60);
-      const secStr     = seconds < 10 ? '0' + seconds : seconds;
-      this.ctx.fillStyle = "black";
-      this.ctx.font      = "30px sans-serif";
-      this.ctx.fillText(`Temps: ${minutes}:${secStr}s`, 240, 90);
-      this.ctx.fillText(`Score: ${this.score}`, 435, 90);
+    // 4) Timer & score
+    const elapsedSec = Math.floor((now - this.startTime)/1000);
+    const minutes    = Math.floor(elapsedSec/60);
+    const seconds    = elapsedSec % 60;
+    const secStr     = seconds<10 ? '0'+seconds : seconds;
+    this.ctx.fillStyle = "black";
+    this.ctx.font      = "30px sans-serif";
+    this.ctx.fillText(`Temps: ${minutes}:${secStr}`, 240, 90);
+    this.ctx.fillText(`Score: ${this.score}`,      435, 90);
 
-      // Ecran de fin
-      if (this.gameOver) {
-        this.ctx.fillStyle = "rgba(0,0,0,0.7)";
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.fillStyle = "white";
-        this.ctx.textAlign = "center";
-        this.ctx.font      = "36px sans-serif";
-        this.ctx.fillText(`Fin – Score: ${this.score}`, this.canvas.width/2, this.canvas.height/2 - 20);
-        this.ctx.font      = "24px sans-serif";
-        this.ctx.fillText("Cliquez pour rejouer", this.canvas.width/2, this.canvas.height/2 + 30);
-        return;
-      }
+    // 5) Ecran de fin
+    if (this.gameOver) {
+      this.ctx.fillStyle = "rgba(0,0,0,0.7)";
+      this.ctx.fillRect(0,0, this.canvas.width, this.canvas.height);
+      this.ctx.fillStyle = "white";
+      this.ctx.textAlign = "center";
+      this.ctx.font      = "36px sans-serif";
+      this.ctx.fillText(`Fin – Score: ${this.score}`, this.canvas.width/2, this.canvas.height/2 - 20);
+      this.ctx.font      = "24px sans-serif";
+      this.ctx.fillText("Cliquez pour rejouer", this.canvas.width/2, this.canvas.height/2 + 30);
+      // Ne fait pas de requestAnimationFrame : on arrête à la fin
+      return;
+    }
 
-      requestAnimationFrame(loop);
-    };
-    loop();
-  }
+    // relance la boucle
+    requestAnimationFrame(loop);
+  };
+
+  loop();
+}
+
 }
