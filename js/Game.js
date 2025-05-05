@@ -191,7 +191,7 @@ if (this.isPaused) return;
     this.ctx.font      = "18px sans-serif";
     this.ctx.fillText("Pause", btnX+15, btnY+20);
 
-    // --- Si Pausé ---
+    //  Si Pause 
     if (this.isPaused) {
       this.ctx.fillStyle = "rgba(0,0,0,0.5)";
       this.ctx.fillRect(0,0, this.canvas.width, this.canvas.height);
@@ -205,10 +205,8 @@ if (this.isPaused) return;
     }
 
     // --- Jeu Actif ---
-    // 1) Affiche les tuiles
     this.map.drawTiles();
 
-    // 2) Surlignage de la tuile sélectionnée
     if (this.selectedTile) {
       const { x, y, z } = this.selectedTile;
       const yOff = y - z*6;
@@ -217,7 +215,6 @@ if (this.isPaused) return;
       this.ctx.strokeRect(x + 6*z, yOff + 2, this.tileSize-4, this.tileSize-4);
     }
 
-    // 3) Indice après 20s
     const now = Date.now();
     if (this.hintsEnabled && !this.gameOver && now - this.lastMatchTime > 20000) {
       if (!this.hintPair.length) this.hintPair = this.findHintPair();
@@ -231,7 +228,6 @@ if (this.isPaused) return;
       }
     }
 
-    // 4) Timer & score
     const elapsedSec = Math.floor((now - this.startTime - this.pausedDuration)/1000);
     const minutes    = Math.floor(elapsedSec/60);
     const seconds    = elapsedSec % 60;
@@ -241,7 +237,6 @@ if (this.isPaused) return;
     this.ctx.fillText(`Temps: ${minutes}:${secStr}`, 240, 90);
     this.ctx.fillText(`Score: ${this.score}`,      435, 90);
 
-    // 5) Ecran de fin
     if (this.gameOver) {
       this.ctx.fillStyle = "rgba(0,0,0,0.7)";
       this.ctx.fillRect(0,0, this.canvas.width, this.canvas.height);
@@ -251,11 +246,9 @@ if (this.isPaused) return;
       this.ctx.fillText(`Fin – Score: ${this.score}`, this.canvas.width/2, this.canvas.height/2 - 20);
       this.ctx.font      = "24px sans-serif";
       this.ctx.fillText("Cliquez pour rejouer", this.canvas.width/2, this.canvas.height/2 + 30);
-      // Ne fait pas de requestAnimationFrame : on arrête à la fin
       return;
     }
 
-    // relance la boucle
     requestAnimationFrame(loop);
   };
 
